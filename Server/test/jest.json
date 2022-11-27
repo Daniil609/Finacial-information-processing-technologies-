@@ -1,0 +1,16 @@
+{
+  "moduleFileExtensions": ["js", "json", "ts"],
+  "rootDir": ".",
+  "testEnvironment": "node",
+  "preset": "ts-jest",
+  "modulePaths": ["<rootDir>/src"],
+  "testMatch": [
+    "**/*.+(spec|test).[tj]s?(x)"
+  ],
+  "testTimeout": 10000,
+  "transform": {
+    "^.+\\.(t|j)s$": "ts-jest"
+  },
+  "globalSetup": "./jest-setup.ts",
+  "globalTeardown": "./jest-teardown.ts"
+}
