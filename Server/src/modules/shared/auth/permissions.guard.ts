@@ -1,4 +1,4 @@
-import { CanActivate, ExecutionContext, ForbiddenException, Injectable } from '@nestjs/common';
+import { CanActivate, ExecutionContext, ForbiddenException, Injectable, Logger } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { JwtUser, UserPermissionItem } from '../../../interfaces';
 
@@ -14,8 +14,16 @@ export class PermissionsGuard implements CanActivate {
 
     if (!permissions) return true;
 
+    // For public endpoints
+    const isPublic = this.reflector.get<boolean>('isPublic', context.getHandler());
+
+    if (isPublic) {
+      return true;
+    }
+
     const request = context.switchToHttp().getRequest();
     const user: JwtUser = request.user;
+    Logger.log(user, "TEST:")
 
     const enoughPermissions = permissions.every(([code, level]) => {
       return hasPermission(user.permissionMap, code, level);

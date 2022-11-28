@@ -5,9 +5,6 @@ import configuration from './config/configuration';
 import { LogHttpMiddleware } from './modules/shared/logger/log-http.middleware';
 import { LoggerMiddleware } from './modules/shared/logger/logger.middleware';
 import { FeaturesModule } from './modules/features/features.module';
-import { APP_GUARD } from '@nestjs/core';
-import { PermissionsGuard } from './modules/shared/auth/permissions.guard';
-import { AuthMiddleware } from './modules/shared/auth/auth.middleware';
 
 @Module({
   imports: [
@@ -16,23 +13,13 @@ import { AuthMiddleware } from './modules/shared/auth/auth.middleware';
     FeaturesModule,
   ],
   controllers: [],
-  providers: [
-    {
-      provide: APP_GUARD,
-      useClass: PermissionsGuard,
-    },
-  ],
+  providers: [],
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
     consumer.apply(LoggerMiddleware).forRoutes('*');
     consumer
       .apply(LogHttpMiddleware)
-      .exclude({ path: 'info', method: RequestMethod.GET })
-      .forRoutes('*');
-
-    consumer
-      .apply(AuthMiddleware)
       .exclude({ path: 'info', method: RequestMethod.GET })
       .forRoutes('*');
   }

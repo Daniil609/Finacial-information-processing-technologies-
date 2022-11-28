@@ -42,3 +42,7 @@ export const PERMISSION_CODE = {
   MANAGER: 'manager',
   PERMISSIONS: 'permissions',
 };
+
+export const jwtConstants = {
+  secret: 'secretKey',
+};

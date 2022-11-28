@@ -9,8 +9,6 @@ async function bootstrap() {
   setupNestApp(app);
   setupSwagger(app);
 
-  Logger.log("TEST")
-
   await app.listen(3000);
 }
 bootstrap();

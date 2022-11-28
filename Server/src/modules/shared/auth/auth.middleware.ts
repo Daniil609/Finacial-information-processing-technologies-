@@ -1,4 +1,11 @@
-import { Inject, Injectable, Logger, NestMiddleware, UnauthorizedException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Inject,
+  Injectable,
+  Logger,
+  NestMiddleware,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { NextFunction, Request, Response } from 'express';
 import { PROVIDERS } from '../../../constants/providers';
 import { JwtUser, UserPermissionMap } from '../../../interfaces';
@@ -10,6 +17,8 @@ export class AuthMiddleware implements NestMiddleware {
 
   async use(req: Request, res: Response, next: NextFunction) {
     const authorizationHeader: undefined | string = req.headers.authorization;
+
+    Logger.log("TEST: authing", authorizationHeader);
 
     if (!authorizationHeader) throw new UnauthorizedException();
 
@@ -26,8 +35,8 @@ export class AuthMiddleware implements NestMiddleware {
     const parsedToken = JSON.parse(token) as { id: string };
     const { id: userId } = parsedToken;
 
-    const permissions = await this.models.UserPermission.findAll({
-      where: { userId },
+    const relatedUser = await this.models.User.findOne({
+      where: { id: userId },
       attributes: ['level'],
       include: [
         {
@@ -38,13 +47,29 @@ export class AuthMiddleware implements NestMiddleware {
       ],
     });
 
+    const permissions = await this.models.UserPermission.findAll({
+      where: { user_id: userId },
+      attributes: ['level'],
+      include: [
+        {
+          model: this.models.Permission,
+          as: 'permission',
+          attributes: ['code'],
+        },
+      ],
+    });
+
+    if (!relatedUser) {
+      throw new BadRequestException('Authentication failed');
+    }
+
     const permissionMap = permissions.reduce((accum, current) => {
       accum[current.permission.code] = current.level;
       return accum;
     }, {} as UserPermissionMap);
 
     return {
-      id: userId,
+      id: relatedUser.id.toString(),
       permissionMap: permissionMap,
     };
   }

@@ -15,7 +15,7 @@ export class UserPermissionModel extends Model<
   InferCreationAttributes<UserPermissionModel>
 > {
   declare id: CreationOptional<string>;
-  declare userId: string;
+  declare user_id: string;
   declare permissionId: string;
   declare level: PERMISSION_LEVEL;
 
@@ -37,7 +37,7 @@ export const init = (sequelize: Sequelize) => {
         primaryKey: true,
         defaultValue: DataTypes.UUIDV4,
       },
-      userId: {
+      user_id: {
         type: DataTypes.UUIDV4,
         allowNull: false,
       },

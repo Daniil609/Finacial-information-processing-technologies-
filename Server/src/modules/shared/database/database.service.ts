@@ -1,4 +1,4 @@
-import { Injectable, OnApplicationShutdown } from '@nestjs/common';
+import { Injectable, Logger, OnApplicationShutdown } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { Sequelize } from 'sequelize';
 import { EnvironmentVariables } from '../../../constants/env-variables';
@@ -11,7 +11,9 @@ export class DatabaseService implements OnApplicationShutdown {
     const dbConfig = configService.get('DATABASE');
     this.sequelize = new Sequelize({
       ...dbConfig,
-      logging: false,
+      logging: (sql) => {
+        Logger.log('TEST: sql query', sql);
+      },
     });
   }
 
