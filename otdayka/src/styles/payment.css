@@ -1,0 +1,31 @@
+.payment_container {
+    min-width: 100%;
+    height: 85vh;
+    background-color: rgb(172, 181, 189); 
+}
+
+.payment_container h1 {
+    padding: 1rem 0 0 1rem;
+}
+
+
+.payment_transaction {
+    display: flex;
+    gap: 30rem;
+    width: 95%;
+    height: 20vh;
+    padding-left: -30rem;
+    margin: 2rem 0rem 0rem 3rem;
+    background-color: rgb(97, 100, 99);
+}
+
+.payment_transaction  img {
+    margin: 3rem 0 0 2rem;
+    width: 15rem;
+    height: 7rem;
+}
+
+
+.payment_info {
+    margin: 0rem 0 0 -20rem;
+}
