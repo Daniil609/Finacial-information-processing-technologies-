@@ -6,3 +6,4 @@ export {
 } from './user-permission';
 export { init as initUserModel, UserModel, UserModelPlain } from './user';
 export { init as initProfileModel, ProfileModel, ProfileModelPlain } from './profile';
+export { init as initRegionModel, RegionModel, RegionModelPlain } from './address';

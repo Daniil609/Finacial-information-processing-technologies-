@@ -18,7 +18,7 @@ import { LocalStrategy } from './local.strategy';
     ProfileModule,
     JwtModule.register({
       secret: jwtConstants.secret,
-      signOptions: { expiresIn: '60s' },
+      signOptions: { expiresIn: '1y' },
     }),
   ],
   controllers: [AuthController],

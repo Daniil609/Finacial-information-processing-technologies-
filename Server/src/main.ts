@@ -1,4 +1,4 @@
-import { INestApplication, Logger } from '@nestjs/common';
+import { INestApplication, ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { AppModule } from './app.module';
@@ -6,6 +6,7 @@ import { setupNestApp } from './utils/app';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  app.useGlobalPipes(new ValidationPipe());
   setupNestApp(app);
   setupSwagger(app);
 
@@ -15,7 +16,7 @@ bootstrap();
 
 function setupSwagger(app: INestApplication) {
   const config = new DocumentBuilder()
-    .setTitle('SNMT Skills backend API')
+    .setTitle(' backend API')
     .setVersion('1.0')
     .addBearerAuth({ type: 'http' })
     .addTag('permissions')

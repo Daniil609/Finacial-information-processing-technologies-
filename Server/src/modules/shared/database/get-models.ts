@@ -10,6 +10,8 @@ import {
   UserPermissionModel,
   initProfileModel,
   ProfileModel,
+  initRegionModel,
+  RegionModel,
 } from './models';
 
 export interface Models {
@@ -17,6 +19,7 @@ export interface Models {
   Permission: ModelStatic<PermissionModel>;
   UserPermission: ModelStatic<UserPermissionModel>;
   Profile: ModelStatic<ProfileModel>;
+  Region: ModelStatic<RegionModel>;
 }
 
 export const getModels = (sequelize: Sequelize) => {
@@ -24,12 +27,14 @@ export const getModels = (sequelize: Sequelize) => {
   const Permission = initPermissionModel(sequelize);
   const UserPermission = initUserPermissionModel(sequelize);
   const Profile = initProfileModel(sequelize);
+  const Region = initRegionModel(sequelize);
 
   const models: Models = {
     User,
     Permission,
     UserPermission,
     Profile,
+    Region,
   };
 
   // relations
@@ -42,6 +47,9 @@ export const getModels = (sequelize: Sequelize) => {
 
   User.hasOne(Profile, { as: 'profile', foreignKey: 'id' });
   Profile.belongsTo(User, { as: 'user', foreignKey: 'userId' });
+
+  Profile.hasOne(Region, { as: 'region', foreignKey: 'id' });
+  Region.belongsTo(Profile, { as: 'profile', foreignKey: 'address_id' });
 
   return models;
 };

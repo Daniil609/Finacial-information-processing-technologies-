@@ -45,7 +45,7 @@ export class AuthController {
         value: {
           email: 'bogdan@example.com',
           username: 'Bogdan101',
-          password: 'sdfsdfs',
+          password: 'sdfsdfssdfd',
         },
       },
     },
@@ -89,7 +89,7 @@ export class AuthController {
         description: 'Simple login request',
         value: {
           username: 'Bogdan101',
-          password: 'sdfsdfs',
+          password: 'sdfsdfssdfd',
         },
       },
     },
