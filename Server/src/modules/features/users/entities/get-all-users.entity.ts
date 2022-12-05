@@ -2,8 +2,8 @@ import { ApiProperty } from '@nestjs/swagger';
 import { apiResponseExample } from '../../../../utils/api-response-examples';
 
 export class GetAllUsers {
-  @ApiProperty({ example: apiResponseExample.uuid })
-  declare id: string;
+  @ApiProperty({ example: 15 })
+  declare id: number;
 
   @ApiProperty({ example: 'User name' })
   declare name: string;
@@ -13,8 +13,8 @@ export class GetAllUsers {
 }
 
 export class RegisterNewUser {
-  @ApiProperty({ example: apiResponseExample.uuid })
-  declare id: string;
+  @ApiProperty({ example: 15 })
+  declare id: number;
 
   @ApiProperty({ example: 'User name' })
   declare name: string;

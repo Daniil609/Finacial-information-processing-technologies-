@@ -5,3 +5,4 @@ export {
   UserPermissionModelPlain,
 } from './user-permission';
 export { init as initUserModel, UserModel, UserModelPlain } from './user';
+export { init as initProfileModel, ProfileModel, ProfileModelPlain } from './profile';

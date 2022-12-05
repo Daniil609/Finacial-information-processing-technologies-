@@ -1,10 +1,9 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
+
 const { Sequelize } = require('sequelize');
 const { withTransaction } = require('../utils');
-const { hash } = require('bcrypt');
-const { Logger } = require('@nestjs/common');
 
-const TABLE_NAME = 'users';
+const TABLE_NAME = 'profiles';
 const DB_SCHEMA = process.env.DB_SCHEMA;
 const target = { tableName: TABLE_NAME, schema: DB_SCHEMA };
 
@@ -14,20 +13,24 @@ module.exports = {
       target,
       {
         id: {
-          type: DataTypes.INTEGER,
+          type: DataTypes.UUID,
+          defaultValue: DataTypes.literal('uuid_generate_v4()'),
           primaryKey: true,
-          autoIncrement: true,
         },
-        username: {
+        name: {
           type: DataTypes.STRING,
-          allowNull: false,
+          allowNull: true,
         },
-        email: {
+        phone: {
           type: DataTypes.STRING,
-          allowNull: false,
+          allowNull: true,
         },
-        password: {
+        address_id: {
           type: DataTypes.STRING,
+          allowNull: true,
+        },
+        user_id: {
+          type: DataTypes.INTEGER,
           allowNull: false,
         },
         created_at: {
@@ -41,29 +44,10 @@ module.exports = {
           defaultValue: Sequelize.fn('NOW'),
         },
       },
-      {
-        transaction,
-        hooks: {
-          beforeSave: async function (user, options) {
-            console.log(
-              `TEST: user password will be changed from ${user.getDataValue('password')} to ${
-                user.password
-              }`,
-            );
-            Logger.log(
-              `TEST: user password will be changed from ${user.getDataValue('password')} to ${
-                user.password
-              }`,
-            );
-            if (user.changed('password')) {
-              user.setDataValue('password', await hash(user.password, 12));
-            }
-          },
-        },
-      },
+      { transaction },
     );
   }),
   down: withTransaction(async (queryInterface, DataTypes, transaction) => {
-    await queryInterface.dropTable(target, { transaction });
+    return queryInterface.dropTable(target, { transaction });
   }),
 };

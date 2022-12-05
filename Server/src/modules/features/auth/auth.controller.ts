@@ -7,6 +7,7 @@ import {
   Post,
   Res,
   UseGuards,
+  Logger,
 } from '@nestjs/common';
 import { ApiBody, ApiTags } from '@nestjs/swagger';
 import { decorator } from 'src/decorators';
@@ -18,6 +19,7 @@ import { UserRegisterDto } from '../users/register.dto';
 import { AuthService } from './auth.service';
 import * as ResponseEntity from './entities';
 import { LocalAuthGuard } from './local-auth.guard';
+import { ProfileService } from '../profile/profile.service';
 
 @ApiTags('auth')
 @Controller({ path: 'auth', version: '1' })
@@ -25,6 +27,7 @@ export class AuthController {
   constructor(
     @Inject(PROVIDERS.MODELS) private models: Models,
     private readonly service: AuthService,
+    private readonly profileService: ProfileService,
   ) {}
 
   @Post('register')
@@ -66,6 +69,8 @@ export class AuthController {
       createdAt,
     } = await this.service.registerNewUser(registerDto);
 
+    await this.profileService.registerNewProfile(+id);
+
     res.status(201).send({ id, email: newUserEmail, newUserUsername, createdAt });
   }
 
@@ -89,7 +94,9 @@ export class AuthController {
       },
     },
   })
-  async login(@Request() req) {
-    return this.service.login(req.user);
+  async login(@Request() req, @Res() res: Response) {
+    const loginInfo = await this.service.login(req.user);
+
+    res.status(200).send(loginInfo);
   }
 }

@@ -29,9 +29,9 @@ export const init = (sequelize: Sequelize) => {
     'User',
     {
       id: {
-        type: DataTypes.UUIDV4,
+        type: DataTypes.INTEGER,
         primaryKey: true,
-        defaultValue: DataTypes.UUIDV4,
+        autoIncrement: true,
       },
       username: {
         type: DataTypes.STRING,
