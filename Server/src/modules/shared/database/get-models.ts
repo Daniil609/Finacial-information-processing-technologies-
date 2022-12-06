@@ -12,6 +12,10 @@ import {
   ProfileModel,
   initRegionModel,
   RegionModel,
+  initProductModel,
+  ProductModel,
+  initProductTypeModel,
+  ProductTypeModel,
 } from './models';
 
 export interface Models {
@@ -20,6 +24,8 @@ export interface Models {
   UserPermission: ModelStatic<UserPermissionModel>;
   Profile: ModelStatic<ProfileModel>;
   Region: ModelStatic<RegionModel>;
+  Product: ModelStatic<ProductModel>;
+  ProductType: ModelStatic<ProductTypeModel>;
 }
 
 export const getModels = (sequelize: Sequelize) => {
@@ -28,6 +34,8 @@ export const getModels = (sequelize: Sequelize) => {
   const UserPermission = initUserPermissionModel(sequelize);
   const Profile = initProfileModel(sequelize);
   const Region = initRegionModel(sequelize);
+  const Product = initProductModel(sequelize);
+  const ProductType = initProductTypeModel(sequelize);
 
   const models: Models = {
     User,
@@ -35,6 +43,8 @@ export const getModels = (sequelize: Sequelize) => {
     UserPermission,
     Profile,
     Region,
+    Product,
+    ProductType,
   };
 
   // relations
@@ -50,6 +60,12 @@ export const getModels = (sequelize: Sequelize) => {
 
   Profile.hasOne(Region, { as: 'region', foreignKey: 'id' });
   Region.belongsTo(Profile, { as: 'profile', foreignKey: 'address_id' });
+
+  Product.belongsTo(User, { as: 'user', foreignKey: 'user_id' });
+  User.hasMany(Product, { as: 'userProducts', foreignKey: 'user_id' });
+
+  ProductType.belongsTo(Product, { as: 'productType', foreignKey: 'id' });
+  Product.hasOne(ProductType, { as: 'productType', foreignKey: 'type_id' });
 
   return models;
 };

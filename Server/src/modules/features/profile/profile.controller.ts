@@ -1,7 +1,6 @@
 import { Body, Controller, Get, Param, Put, Res, UseGuards } from '@nestjs/common';
 import { ApiBearerAuth, ApiBody, ApiParam, ApiTags } from '@nestjs/swagger';
 import { Response } from 'express';
-import { Logger } from '@nestjs/common';
 import { PERMISSION_CODE, PERMISSION_LEVEL } from '../../../constants';
 import { decorator } from '../../../decorators';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
@@ -24,8 +23,6 @@ export class ProfileController {
   @decorator.Permissions([PERMISSION_CODE.PERMISSIONS, PERMISSION_LEVEL.READ])
   @ApiParam({ name: 'userId', example: 15 })
   async getById(@Param('userId') userId, @Res() res: Response) {
-    Logger.log('TeST: log', userId);
-
     //@ts-ignore
     const userProfile = await this.service.findOneById(userId);
     res.json(userProfile);

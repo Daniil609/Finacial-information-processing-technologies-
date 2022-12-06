@@ -94,12 +94,6 @@ export class ProfileService {
     return results[0];
   }
 
-  async findAll() {
-    const users = await this.models.User.findAll();
-
-    return users;
-  }
-
   async registerNewProfile(userId: number) {
     //@ts-ignore
     const [results] = await this.models.Profile.sequelize?.query(
