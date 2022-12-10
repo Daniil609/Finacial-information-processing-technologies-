@@ -16,6 +16,10 @@ import {
   ProductModel,
   initProductTypeModel,
   ProductTypeModel,
+  initCommentModel,
+  CommentModel,
+  initMessageModel,
+  MessageModel,
 } from './models';
 
 export interface Models {
@@ -26,6 +30,8 @@ export interface Models {
   Region: ModelStatic<RegionModel>;
   Product: ModelStatic<ProductModel>;
   ProductType: ModelStatic<ProductTypeModel>;
+  Comment: ModelStatic<CommentModel>;
+  Message: ModelStatic<MessageModel>;
 }
 
 export const getModels = (sequelize: Sequelize) => {
@@ -36,6 +42,8 @@ export const getModels = (sequelize: Sequelize) => {
   const Region = initRegionModel(sequelize);
   const Product = initProductModel(sequelize);
   const ProductType = initProductTypeModel(sequelize);
+  const Comment = initCommentModel(sequelize);
+  const Message = initMessageModel(sequelize);
 
   const models: Models = {
     User,
@@ -45,6 +53,8 @@ export const getModels = (sequelize: Sequelize) => {
     Region,
     Product,
     ProductType,
+    Comment,
+    Message,
   };
 
   // relations
@@ -66,6 +76,12 @@ export const getModels = (sequelize: Sequelize) => {
 
   ProductType.belongsTo(Product, { as: 'productType', foreignKey: 'id' });
   Product.hasOne(ProductType, { as: 'productType', foreignKey: 'type_id' });
+
+  Comment.belongsTo(Product, { as: 'product', foreignKey: 'product_id' });
+  Product.hasMany(Comment, { as: 'comment', foreignKey: 'id' });
+
+  Message.belongsTo(User, { as: 'user', foreignKey: 'user_from_id' });
+  User.hasMany(Message, { as: 'userMessages', foreignKey: 'user_id' });
 
   return models;
 };

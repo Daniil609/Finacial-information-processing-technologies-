@@ -9,11 +9,15 @@ import { ProductService } from './product.service';
 import { ProductUploadDto } from './product.dto';
 import { faker } from '@faker-js/faker';
 import { apiResponseExample } from 'src/utils/api-response-examples';
+import { CommentService } from '../comment/comment.service';
 
 @ApiTags('product')
 @Controller({ path: 'product', version: '1' })
 export class ProductController {
-  constructor(private readonly service: ProductService) {}
+  constructor(
+    private readonly service: ProductService,
+    private readonly commentsService: CommentService,
+  ) {}
 
   @Get('/:userId')
   @ApiBearerAuth()
@@ -27,7 +31,15 @@ export class ProductController {
   async getById(@Param('userId') userId, @Res() res: Response) {
     //@ts-ignore
     const userProducts = await this.service.findProductsById(userId);
-    res.json(userProducts);
+
+    const productsWithComments: any = [];
+
+    for (const product of userProducts) {
+      const productComments = await this.commentsService.findCommentsByProductId(product.id);
+      productsWithComments.push({ comments: productComments, productInfo: product });
+    }
+
+    res.json(productsWithComments);
   }
 
   @Get()
@@ -41,7 +53,15 @@ export class ProductController {
   async getProducts(@Req() req: Request, @Res() res: Response) {
     //@ts-ignore
     const products = await this.service.getAllProducts();
-    res.json(products);
+
+    const productsWithComments: any = [];
+
+    for (const product of products) {
+      const productComments = await this.commentsService.findCommentsByProductId(product.id);
+      productsWithComments.push({ comments: productComments, productInfo: product });
+    }
+
+    res.json(productsWithComments);
   }
 
   @Post()

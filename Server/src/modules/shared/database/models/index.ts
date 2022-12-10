@@ -13,3 +13,5 @@ export {
   ProductTypeModel,
   ProductTypeModelPlain,
 } from './productType';
+export { init as initCommentModel, CommentModel, CommentModelPlain } from './comment';
+export { init as initMessageModel, MessageModel, MessageModelPlain } from './message';

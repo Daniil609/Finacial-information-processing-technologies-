@@ -1,7 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { apiResponseExample } from '../../../../utils/api-response-examples';
 
-// TODO: add more detailed example response with comments and product info
 export class GetAllProducts {
   @ApiProperty({ example: apiResponseExample.uuid })
   declare id: string;
