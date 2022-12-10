@@ -1,0 +1,15 @@
+version: '3'
+
+# There's no backend, just its dependencies (database for example)
+# for local development only. Unused in deployments.
+# So the idea is running backend on developer's local but its rest dependencies - in docker
+
+services:
+  db:
+    image: postgres:12
+    ports:
+      - '5432:5432'
+    environment:
+      - POSTGRES_DB={DB_SCHEMA}
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
