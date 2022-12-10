@@ -9,6 +9,9 @@ export default () => ({
   // Admin
   ADMIN_ID: process.env.ADMIN_ID,
 
+  // Stripe
+  STRIPE_WH_SECRET: process.env.STRIPE_WH_SECRET,
+
   // Database
   DATABASE: {
     username: process.env.DB_USERNAME,

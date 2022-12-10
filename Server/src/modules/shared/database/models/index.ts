@@ -15,3 +15,4 @@ export {
 } from './productType';
 export { init as initCommentModel, CommentModel, CommentModelPlain } from './comment';
 export { init as initMessageModel, MessageModel, MessageModelPlain } from './message';
+export { init as initPaymentModel, PaymentModel, PaymentModelPlain } from './payment';

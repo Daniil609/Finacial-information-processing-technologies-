@@ -1,4 +1,4 @@
-import { Controller, Get, Req, Res, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Req, Res, UseGuards } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { Response, Request } from 'express';
 import { PERMISSION_CODE, PERMISSION_LEVEL } from '../../../constants';
@@ -26,4 +26,11 @@ export class ProductTypeController {
     res.json(products);
   }
 
+  @Post()
+  async webhook(@Req() req: Request, @Res() res: Response) {
+
+    //@ts-ignore
+    const products = await this.service.getAllProductTypes();
+    res.json(products);
+  }
 }

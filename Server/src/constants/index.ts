@@ -46,3 +46,5 @@ export const PERMISSION_CODE = {
 export const jwtConstants = {
   secret: 'secretKey',
 };
+
+export const stripe_wh_secret = ''

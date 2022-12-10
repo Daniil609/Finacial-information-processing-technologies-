@@ -30,3 +30,8 @@ export interface Pagination {
   limit?: number;
   offset?: number;
 }
+
+interface RequestWithRawBody extends Request {
+  rawBody: Buffer;
+}
+export default RequestWithRawBody;

@@ -27,6 +27,22 @@ export class ProductService {
     return results;
   }
 
+  async findProductByProductId(productId: string) {
+    //@ts-ignore
+    const [results] = await this.models.Product.sequelize?.query(
+      `SELECT pr.*
+        FROM trpo.products pr
+      where pr.id = :productId LIMIT 1 ;`,
+      { replacements: { productId } },
+    );
+
+    if (!results || !results[0]) {
+      throw new NotFoundException('Product with such id was not found');
+    }
+
+    return results[0];
+  }
+
   async getAllProducts() {
     //@ts-ignore
     const [results] = await this.models.Product.sequelize?.query(

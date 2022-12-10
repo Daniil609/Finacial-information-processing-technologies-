@@ -20,6 +20,8 @@ import {
   CommentModel,
   initMessageModel,
   MessageModel,
+  initPaymentModel,
+  PaymentModel,
 } from './models';
 
 export interface Models {
@@ -32,6 +34,7 @@ export interface Models {
   ProductType: ModelStatic<ProductTypeModel>;
   Comment: ModelStatic<CommentModel>;
   Message: ModelStatic<MessageModel>;
+  Payment: ModelStatic<PaymentModel>;
 }
 
 export const getModels = (sequelize: Sequelize) => {
@@ -44,6 +47,7 @@ export const getModels = (sequelize: Sequelize) => {
   const ProductType = initProductTypeModel(sequelize);
   const Comment = initCommentModel(sequelize);
   const Message = initMessageModel(sequelize);
+  const Payment = initPaymentModel(sequelize);
 
   const models: Models = {
     User,
@@ -55,6 +59,7 @@ export const getModels = (sequelize: Sequelize) => {
     ProductType,
     Comment,
     Message,
+    Payment,
   };
 
   // relations

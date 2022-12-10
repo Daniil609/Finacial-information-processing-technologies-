@@ -11,6 +11,9 @@ export interface EnvironmentVariables {
   DATABASE: DatabaseSettings;
   // Admin
   ADMIN_ID: string;
+
+  // Stripe
+  STRIPE_WH_SECRET: string;
 }
 
 interface DatabaseSettings {

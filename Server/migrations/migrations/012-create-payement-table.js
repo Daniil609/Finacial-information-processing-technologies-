@@ -3,7 +3,7 @@
 const { Sequelize } = require('sequelize');
 const { withTransaction } = require('../utils');
 
-const TABLE_NAME = 'products';
+const TABLE_NAME = 'payments';
 const DB_SCHEMA = process.env.DB_SCHEMA;
 const target = { tableName: TABLE_NAME, schema: DB_SCHEMA };
 
@@ -17,49 +17,29 @@ module.exports = {
           defaultValue: DataTypes.literal('uuid_generate_v4()'),
           primaryKey: true,
         },
-        name: {
-          type: DataTypes.STRING,
-          allowNull: true,
-        },
-        manufactureDate: {
-          type: DataTypes.DATE,
-          allowNull: false,
-        },
-        price: {
+        amount: {
           type: DataTypes.INTEGER,
           allowNull: false,
-        },
-        image: {
-          type: DataTypes.BLOB,
-          allowNull: false,
-        },
-        type_id: {
-          type: DataTypes.STRING,
-          allowNull: false,
-        },
-        condition: {
-          type: DataTypes.STRING,
-          allowNull: false,
-        },
-        minAge: {
-          type: DataTypes.INTEGER,
-          allowNull: false,
-        },
-        maxAge: {
-          type: DataTypes.INTEGER,
-          allowNull: false,
-        },
-        address_id: {
-          type: DataTypes.STRING,
-          allowNull: true,
         },
         user_id: {
           type: DataTypes.INTEGER,
           allowNull: false,
         },
-        buyer_user_id: {
-          type: DataTypes.INTEGER,
-          allowNull: true,
+        status: {
+          type: DataTypes.STRING,
+          allowNull: false,
+        },
+        currency: {
+          type: DataTypes.STRING,
+          allowNull: false,
+        },
+        payment_details: {
+          type: DataTypes.JSONB,
+          allowNull: false,
+        },
+        payment_type: {
+          type: DataTypes.STRING,
+          allowNull: false,
         },
         created_at: {
           type: DataTypes.DATE,

@@ -22,6 +22,7 @@ export class ProductModel extends Model<
   declare maxAge: number;
   declare address_id: string;
   declare user_id: number;
+  declare buyer_user_id: number;
 
   declare createdAt: CreationOptional<Date>;
   declare updatedAt: CreationOptional<Date>;
@@ -77,6 +78,10 @@ export const init = (sequelize: Sequelize) => {
       user_id: {
         type: DataTypes.INTEGER,
         allowNull: false,
+      },
+      buyer_user_id: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
       },
       createdAt: DataTypes.DATE,
       updatedAt: DataTypes.DATE,
