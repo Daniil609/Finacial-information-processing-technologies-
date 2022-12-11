@@ -46,6 +46,10 @@ export class AuthController {
           email: 'bogdan@example.com',
           username: 'Bogdan101',
           password: 'sdfsdfssdfd',
+          name: 'first name',
+          phone: '+375111111111',
+          address: 'example address street, 167',
+          userId: 1,
         },
       },
     },
@@ -71,7 +75,26 @@ export class AuthController {
 
     await this.profileService.registerNewProfile(+id);
 
-    res.status(201).send({ id, email: newUserEmail, newUserUsername, createdAt });
+    const addAddress = await this.profileService.addAddress(registerDto.address);
+
+    //@ts-ignore
+    const profile = await this.profileService.updateProfile({
+      name: registerDto.name,
+      phone: registerDto.phone,
+      userId: +registerDto.userId,
+      //@ts-ignore
+      addressId: addAddress.id,
+    });
+
+    res.status(201).send({
+      id,
+      name: profile.name,
+      phone: profile.phone,
+      addressId: profile.address_id,
+      email: newUserEmail,
+      username: newUserUsername,
+      createdAt,
+    });
   }
 
   @UseGuards(LocalAuthGuard)

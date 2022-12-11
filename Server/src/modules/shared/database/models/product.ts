@@ -52,7 +52,7 @@ export const init = (sequelize: Sequelize) => {
         allowNull: false,
       },
       image: {
-        type: DataTypes.BLOB,
+        type: DataTypes.STRING,
         allowNull: false,
       },
       type_id: {
