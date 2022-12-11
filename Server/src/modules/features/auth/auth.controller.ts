@@ -49,7 +49,6 @@ export class AuthController {
           name: 'first name',
           phone: '+375111111111',
           address: 'example address street, 167',
-          userId: 1,
         },
       },
     },
@@ -81,7 +80,7 @@ export class AuthController {
     const profile = await this.profileService.updateProfile({
       name: registerDto.name,
       phone: registerDto.phone,
-      userId: +registerDto.userId,
+      userId: +id,
       //@ts-ignore
       addressId: addAddress.id,
     });

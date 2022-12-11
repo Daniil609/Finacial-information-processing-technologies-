@@ -43,9 +43,4 @@ export class UserRegisterDto {
   @IsString()
   @ApiProperty()
   readonly address: string;
-
-  @IsNotEmpty()
-  @IsNumber()
-  @ApiProperty()
-  readonly userId: string;
 }
