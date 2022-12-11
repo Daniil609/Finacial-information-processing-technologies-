@@ -11,6 +11,15 @@ export class RegisterNewUser {
   @ApiProperty({ example: 'test@example.com' })
   declare email: string;
 
+  @ApiProperty({ example: 'username' })
+  declare username: number;
+
+  @ApiProperty({ example: '+37511111111' })
+  declare phone: number;
+
+  @ApiProperty({ example: apiResponseExample.uuid })
+  declare addressId: number;
+
   @ApiProperty({ example: apiResponseExample.dateIso })
   declare createdAt: number;
 }
