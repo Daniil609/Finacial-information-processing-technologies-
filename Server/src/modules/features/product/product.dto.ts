@@ -20,14 +20,9 @@ export class ProductUploadDto {
   readonly manufactureDate: string;
 
   @IsNotEmpty()
-  @IsNumber()
-  @ApiProperty()
-  readonly price: number;
-
-  @IsNotEmpty()
   @IsString()
   @ApiProperty()
-  readonly image: string;
+  readonly price: string;
 
   @IsNotEmpty()
   @IsString()
@@ -40,14 +35,14 @@ export class ProductUploadDto {
   readonly condition: string;
 
   @IsNotEmpty()
-  @IsNumber()
+  @IsString()
   @ApiProperty()
-  readonly minAge: number;
+  readonly minAge: string;
 
   @IsNotEmpty()
-  @IsNumber()
+  @IsString()
   @ApiProperty()
-  readonly maxAge: number;
+  readonly maxAge: string;
 
   @IsNotEmpty()
   @IsString()
@@ -55,7 +50,7 @@ export class ProductUploadDto {
   readonly address: string;
 
   @IsNotEmpty()
-  @IsNumber()
+  @IsString()
   @ApiProperty()
-  readonly userId: number;
+  readonly userId: string;
 }
