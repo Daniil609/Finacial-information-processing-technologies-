@@ -8,6 +8,7 @@ import { ProductTypeModule } from './productType/productType.module';
 import { CommentModule } from './comment/comment.module';
 import { MessageModule } from './message/message.module';
 import { PaymentModule } from './payment/payment.module';
+import { HealthModule } from './health/health.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { PaymentModule } from './payment/payment.module';
     CommentModule,
     MessageModule,
     PaymentModule,
+    HealthModule
   ],
 })
 export class FeaturesModule {}
