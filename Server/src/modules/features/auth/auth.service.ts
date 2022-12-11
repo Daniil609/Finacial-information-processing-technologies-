@@ -44,13 +44,14 @@ export class AuthService {
       return null;
     }
 
-    return { email: relatedUser.email, username: relatedUser.username };
+    return { email: relatedUser.email, username: relatedUser.username, userId: +relatedUser.id };
   }
 
   async login(user: any) {
     const payload = { username: user.username, sub: user.userId };
     return {
       access_token: this.jwtService.sign(payload),
+      userId: user.userId,
     };
   }
 }
