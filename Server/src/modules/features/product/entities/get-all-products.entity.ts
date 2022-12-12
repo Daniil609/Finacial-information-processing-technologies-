@@ -1,3 +1,4 @@
+import { faker } from '@faker-js/faker';
 import { ApiProperty } from '@nestjs/swagger';
 import { apiResponseExample } from '../../../../utils/api-response-examples';
 
@@ -77,3 +78,24 @@ export class GetProductsByUserId {
   @ApiProperty({ example: apiResponseExample.dateIso })
   declare createdAt: number;
 }
+
+export class GetAddressById {
+  @ApiProperty({ example: apiResponseExample.uuid })
+  declare id: string;
+
+  @ApiProperty({ example: 'Address name' })
+  declare name: string;
+
+  @ApiProperty({ example: 'address' })
+  declare type: string;
+
+  @ApiProperty({ example: null })
+  declare parent_id: string | null;
+
+  @ApiProperty({ example: faker.date.recent().toISOString() })
+  declare created_at: string;
+
+  @ApiProperty({ example: faker.date.recent().toISOString() })
+  declare updated_at: number;
+}
+
