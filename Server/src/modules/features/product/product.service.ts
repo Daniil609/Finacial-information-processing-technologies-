@@ -43,6 +43,22 @@ export class ProductService {
     return results[0];
   }
 
+  async findAddressById(addressId: string) {
+    //@ts-ignore
+    const [results] = await this.models.Product.sequelize?.query(
+      `SELECT r.*
+        FROM trpo.regions r
+      where r.id = :addressId LIMIT 1 ;`,
+      { replacements: { addressId } },
+    );
+
+    if (!results || !results[0]) {
+      throw new NotFoundException('Address with such id was not found');
+    }
+
+    return results[0];
+  }
+
   async getAllProducts() {
     //@ts-ignore
     const [results] = await this.models.Product.sequelize?.query(

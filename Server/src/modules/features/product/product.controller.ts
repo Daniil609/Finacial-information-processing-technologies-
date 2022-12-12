@@ -59,6 +59,22 @@ export class ProductController {
     res.json(productsWithComments);
   }
 
+  @Get('/address/:addressId')
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
+  @decorator.ApiResponse.internal()
+  @decorator.ApiResponse.forbidden()
+  @decorator.ApiResponse.unauthorized()
+  @decorator.ApiResponse.success({ type: ResponseEntity.GetAddressById })
+  @decorator.Permissions([PERMISSION_CODE.PERMISSIONS, PERMISSION_LEVEL.READ])
+  @ApiParam({ name: 'addressId', example: apiResponseExample.uuid })
+  async getAddressById(@Param('addressId') addressId, @Res() res: Response) {
+    //@ts-ignore
+    const addressInfo = await this.service.findAddressById(addressId);
+
+    res.json(addressInfo);
+  }
+
   @Get()
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
