@@ -48,6 +48,9 @@ export class GetProductsByUserId {
   @ApiProperty({ example: 'Product name' })
   declare name: string;
 
+  @ApiProperty({ example: 'Product description' })
+  declare description: string;
+
   @ApiProperty({ example: apiResponseExample.dateIso })
   declare manufactureDate: string;
 

@@ -79,6 +79,7 @@ export class ProductService {
     image: string;
     manufactureDate: Date;
     name: string;
+    description: string;
     price: number;
     type_id: string;
     userId: number;
@@ -96,13 +97,14 @@ export class ProductService {
       userId,
       maxAge,
       minAge,
+      description,
     } = params;
 
     //@ts-ignore
     const [results] = await this.models.Profile.sequelize?.query(
-      `INSERT INTO trpo.products (id, name, "manufactureDate", price, image, type_id, condition, "minAge", "maxAge",
+      `INSERT INTO trpo.products (id, name, description, "manufactureDate", price, image, type_id, condition, "minAge", "maxAge",
               address_id, user_id, created_at, updated_at)
-        VALUES (DEFAULT, :name, :manufactureDate, :price, :image, :type_id, :condition, :minAge, :maxAge, :address_id, :user_id, DEFAULT,
+        VALUES (DEFAULT, :name, :description, :manufactureDate, :price, :image, :type_id, :condition, :minAge, :maxAge, :address_id, :user_id, DEFAULT,
         DEFAULT) RETURNING *;
       `,
       {
@@ -117,6 +119,7 @@ export class ProductService {
           user_id: userId,
           minAge,
           maxAge,
+          description,
         },
       },
     );

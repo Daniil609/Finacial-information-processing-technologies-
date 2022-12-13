@@ -75,6 +75,22 @@ export class ProductController {
     res.json(addressInfo);
   }
 
+  @Get('/product/:productId')
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
+  @decorator.ApiResponse.internal()
+  @decorator.ApiResponse.forbidden()
+  @decorator.ApiResponse.unauthorized()
+  @decorator.ApiResponse.success({ type: ResponseEntity.GetProductsByUserId })
+  @decorator.Permissions([PERMISSION_CODE.PERMISSIONS, PERMISSION_LEVEL.READ])
+  @ApiParam({ name: 'productId', example: apiResponseExample.uuid })
+  async getProductByProductId(@Param('productId') productId, @Res() res: Response) {
+    //@ts-ignore
+    const productInfo = await this.service.findProductByProductId(productId);
+
+    res.json(productInfo);
+  }
+
   @Get()
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
@@ -121,6 +137,7 @@ export class ProductController {
         description: 'Simple body example',
         value: {
           name: 'Some product',
+          description: 'description',
           manufactureDate: faker.date.past(10).toISOString(),
           price: 1500,
           type_id: apiResponseExample.uuid,
@@ -138,7 +155,7 @@ export class ProductController {
     @UploadedFile(
       new ParseFilePipeBuilder()
         .addFileTypeValidator({
-          fileType: 'jpeg',
+          fileType: new RegExp('jpeg|png|jpg'),
         })
         .addMaxSizeValidator({
           maxSize: 1024 * 5 * 1000,
@@ -150,8 +167,18 @@ export class ProductController {
     file: Express.Multer.File,
     @Res() res: Response,
   ) {
-    const { address, condition, manufactureDate, name, price, type_id, userId, maxAge, minAge } =
-      uploadProductDto;
+    const {
+      address,
+      condition,
+      manufactureDate,
+      name,
+      description,
+      price,
+      type_id,
+      userId,
+      maxAge,
+      minAge,
+    } = uploadProductDto;
 
     const addAddress = await this.service.addAddress(address);
 
@@ -160,6 +187,7 @@ export class ProductController {
     //@ts-ignore
     const userProfile = await this.service.addProduct({
       name,
+      description,
       condition,
       image: file.filename,
       manufactureDate: new Date(manufactureDate),
