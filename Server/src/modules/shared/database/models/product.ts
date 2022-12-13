@@ -13,6 +13,7 @@ export class ProductModel extends Model<
 > {
   declare id: CreationOptional<string>;
   declare name: string;
+  declare description: string;
   declare manufactureDate: Date;
   declare price: number;
   declare image: MediaImage;
@@ -42,6 +43,10 @@ export const init = (sequelize: Sequelize) => {
       name: {
         type: DataTypes.STRING,
         allowNull: true,
+      },
+      description: {
+        type: DataTypes.STRING,
+        allowNull: false,
       },
       manufactureDate: {
         type: DataTypes.DATE,

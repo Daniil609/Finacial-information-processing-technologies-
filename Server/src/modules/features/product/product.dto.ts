@@ -15,6 +15,11 @@ export class ProductUploadDto {
   readonly name: string;
 
   @IsNotEmpty()
+  @IsString()
+  @ApiProperty()
+  readonly description: string;
+
+  @IsNotEmpty()
   @IsISO8601()
   @ApiProperty()
   readonly manufactureDate: string;
