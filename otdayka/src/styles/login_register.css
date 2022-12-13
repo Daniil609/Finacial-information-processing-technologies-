@@ -7,10 +7,12 @@ input {
 }
 
 
-
+#pet-select {
+    width: 70%;
+}
 
 .container {
-    min-height: 35rem;
+    min-height: 40rem;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -24,8 +26,8 @@ input {
     flex-direction: column;
     align-items: center;
     background-color: rgb(227, 209, 119);
-    min-height: 25rem;
-    min-width: 30rem;
+    min-height: 30rem;
+    width: 30rem;
 }
 
 .register_button {

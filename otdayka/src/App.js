@@ -10,6 +10,7 @@ import HomePage from './layouts/HomePage'
 import AdPage from "./layouts/AdPage";
 import AccountPage from './layouts/AccountPage'
 import PaymentPage from "./layouts/PaymentPage";
+import SendPage from "./layouts/SendPage";
 
 
 function App() {
@@ -21,6 +22,7 @@ function App() {
       <Route path="/ad" element={<AdPage />} />
       <Route path="/account" element={<AccountPage />} />
       <Route path="/payment" element={<PaymentPage />} />
+      <Route path="/send" element={<SendPage />} />
     </Routes>
   );
 }

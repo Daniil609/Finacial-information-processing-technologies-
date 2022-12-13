@@ -38,9 +38,15 @@ function AccountPage() {
   let [ageGroup, setAgeGroup] = useState('') 
   
 
+
+  useEffect (() => {
+        if (!localStorage.getItem('TOKEN')) {
+            navigate('/signup')
+        }
+  }) 
     
   useEffect (() => {
-        if (false) navigate('/signup')
+    
   }, [region, newness, type, ageGroup]) 
 
 

@@ -1,0 +1,112 @@
+.send_ad_container_row {
+    display: flex;
+    flex-direction: row;
+    border: 2px solid black;
+    margin-left: 5rem;
+    gap: 2rem;
+    max-width: 70rem;
+}
+
+
+
+.send_ad_container img {
+    width: 40rem;
+    height: 25rem;
+    border: 1px solid black;
+}
+
+.send_ad_container {
+    padding-top: 5rem;
+    display: flex;
+    background-color: rgb(168, 175, 175);
+    min-height: 125vh;
+    overflow-x: hidden;
+}
+
+.country_select {
+    align-self: center;
+    margin-left: 60px;
+    min-width: 560px;
+}
+
+
+.send_ad_container_info {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.send_ad_image_container {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+
+.send_ad_image_container figcaption {
+    padding-left: 6rem;
+}
+
+
+input[type="file"] {
+    align-self: center;
+    font-size: larger;
+}
+
+
+.send_input_text {
+    align-self: center;
+    font-size: x-large;
+    float:right;
+    margin-left: 5rem;
+}
+
+
+.send_input_text_price {
+    align-self: center;
+    font-size: x-large;
+    float:right;
+    margin-left: 6rem;
+}
+
+
+.send_input_region {
+    align-self: center;
+    font-size: x-large;
+    float:right;
+    margin-left: 3rem;
+}
+
+.send_input_text_name {
+    align-self: center;
+    font-size: x-large;
+    float:right;
+    margin-left: 20px;
+}
+
+.type_select {
+    width: 560px;
+    align-self: center;
+    margin-left: 115px;
+}
+
+
+.quality_select {
+    align-self: center;
+    margin-left: 0px;
+    min-width: 560px;
+}
+
+figure {
+    margin-left: 50px;
+}
+
+
+.btn-ad {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-width: 50rem;
+    margin-left: 5rem;
+}

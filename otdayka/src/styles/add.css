@@ -1,18 +1,16 @@
 .main_container {
     display: flex;
-    flex-direction: row;
-    height: 80vh;    
+    flex-direction: row;   
 }
 
 
 .ad_info_container {
-    flex-basis: 60%;
-    border: 1px solid black;
-    background-color: #A09998;
+    background-color: rgb(209, 197, 197);
     word-wrap: break-word;
     overflow-wrap: break-word;
     width: 60%;
-    max-height: 80vh;
+    height: 100vh;
+    border-bottom: 1px solid black;
 }
 
 .ad_info_container p {
@@ -21,17 +19,19 @@
 
 
 .author_info_container {
+    background-color: rgb(209, 197, 197);
     flex-basis: 40%;
     padding: 35px 0 0 35px;
-    border: 1px solid black;
-    height: 80vh;
+    border-left: 1px solid black;
+    border-bottom: 1px solid black;
 }
 
 
 .ad_info_container img {
-    margin: 10px 10px 10px 10px;
-    width: 98%;
-    height: 55%;
+    margin: 20px 10px 10px 50px;
+    width: 90%;
+    height: 45%;
+    border: 1px solid black;
 }
 
 .ad_info_container p {
@@ -39,31 +39,61 @@
     font-size: large;
 }
 
+
+.ad_name {
+    display: flex;
+    justify-content: center;
+}
+
 .char_container {
     display: grid;
     grid-template-areas: "a a" "b b";
-    grid-template-rows: 50px 30px;
+    grid-template-rows: 50px 43px;
     grid-template-columns: 250px 1fr;
 }
 
-.author_img {
+.author_info {
     display: flex;
     flex-direction: row;
     min-height: 30vh;
-    background-color: #A09998;
-    gap: 10rem;
+    margin: 0 1rem 0 0;
+    background-color: #ffcdc6;
 }
 
 figcaption {
     margin: 1rem 0 0 2rem;
 }
 
-.author_img img {
-    margin: 1rem 0 0 2rem;
-    height: 18vh;
-}
 
 
 .author_info_container p {
     font-size: x-large;
+}
+
+
+
+.ad_main_info {
+    margin-top: 3rem;
+    display: flex;
+    flex-direction: row;
+    gap: 20rem;
+}
+
+
+.author_info_container img {
+    width: 70%;
+    border: 1px solid black;
+    margin: 0rem 0 0 5rem;
+}
+
+.author_info_container figure {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+}
+
+
+.author_info_container figcaption {
+    font-size: 50px;
 }
