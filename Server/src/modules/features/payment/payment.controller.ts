@@ -7,7 +7,8 @@ import {
   Req,
   Res,
   UseGuards,
-  Logger,
+  Get,
+  Request,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiBody, ApiTags } from '@nestjs/swagger';
 import { Response } from 'express';
@@ -38,7 +39,7 @@ export class PaymentController {
   @decorator.ApiResponse.internal()
   @decorator.ApiResponse.forbidden()
   @decorator.ApiResponse.unauthorized()
-  @decorator.ApiResponse.success({ type: ResponseEntity.GetProductsByUserId })
+  @decorator.ApiResponse.success({ type: ResponseEntity.GetCheckoutSession })
   @decorator.Permissions([PERMISSION_CODE.PERMISSIONS, PERMISSION_LEVEL.READ])
   @ApiBody({
     schema: {},
@@ -65,6 +66,24 @@ export class PaymentController {
     const response = await this.service.createCheckoutSession(product.price, userId, productId);
 
     res.json({ redirect_url: response.url });
+  }
+
+  @Get('/history')
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
+  @decorator.ApiResponse.internal()
+  @decorator.ApiResponse.forbidden()
+  @decorator.ApiResponse.unauthorized()
+  @decorator.ApiResponse.success({ type: ResponseEntity.GetPaymentHistory })
+  @decorator.Permissions([PERMISSION_CODE.PERMISSIONS, PERMISSION_LEVEL.READ])
+  async getPaymentsHistory(@Request() req, @Res() res: Response) {
+    const {
+      user: { userId },
+    } = req;
+
+    const paymentsDetails = await this.service.getPaymentsHistoryByUserId(userId);
+
+    res.json(paymentsDetails);
   }
 
   @Post('webhook')

@@ -21,7 +21,7 @@ import { HealthModule } from './health/health.module';
     CommentModule,
     MessageModule,
     PaymentModule,
-    HealthModule
+    HealthModule,
   ],
 })
 export class FeaturesModule {}

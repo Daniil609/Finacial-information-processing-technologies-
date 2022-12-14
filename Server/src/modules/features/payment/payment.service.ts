@@ -51,9 +51,9 @@ export class PaymentService {
 
   async handlePaymentWebhook(event: Stripe.Event) {
     if (event.type === 'checkout.session.completed') {
-      const data = event.data.object as Stripe.PaymentIntent;
-      const userId = data.metadata.userId;
-      const productId = data.metadata.productId;
+      const data = event.data.object as Stripe.Checkout.Session;
+      const userId = data.metadata!.userId;
+      const productId = data.metadata!.productId;
 
       // @ts-ignore
       const [results] = await this.models.Product.sequelize?.query(
@@ -67,6 +67,42 @@ export class PaymentService {
       if (!results || !results[0]) {
         throw new NotFoundException('Product with such id was not found');
       }
+
+      // @ts-ignore
+      await this.models.Product.sequelize?.query(
+        `INSERT INTO trpo.payments (id, amount, user_id, status, currency, payment_details, payment_type, created_at, updated_at)
+        VALUES (DEFAULT, :price, :userId, :status, :currency, :paymentDetails, :paymentType, DEFAULT, DEFAULT);
+        `,
+        {
+          replacements: {
+            price: +(data.amount_total || 0),
+            userId: +userId,
+            status: data.status,
+            currency: data.currency,
+            paymentDetails: JSON.stringify(data),
+            paymentType: 'deposit',
+          },
+        },
+      );
+
+      if (!results || !results[0]) {
+        throw new NotFoundException('Could not create payment row');
+      }
     }
+  }
+
+  async getPaymentsHistoryByUserId(userId: number) {
+    // @ts-ignore
+    const [results] = await this.models.Product.sequelize?.query(
+      `SELECT id, amount, status, currency, payment_type from trpo.payments where user_id = :userId;
+      `,
+      { replacements: { userId } },
+    );
+
+    if (!results || !results[0]) {
+      throw new NotFoundException('Cannot find payment transaction for given user');
+    }
+
+    return results;
   }
 }
