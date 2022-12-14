@@ -1,3 +1,6 @@
 Server/node_modules
 Server/dist
 Server/logs
+Server/npm-debug.log
+Server/.DS_Store
+Server/*.env
