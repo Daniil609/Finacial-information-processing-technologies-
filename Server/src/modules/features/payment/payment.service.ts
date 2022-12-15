@@ -23,8 +23,8 @@ export class PaymentService {
     productId: string,
   ): Promise<Stripe.Checkout.Session> {
     const session = await stripe.checkout.sessions.create({
-      success_url: 'https://example.com/success',
-      cancel_url: 'https://example.com/cancel',
+      success_url: 'https://trpo-item-selling-service.herokuapp.com',
+      cancel_url: 'https://trpo-item-selling-service.herokuapp.com',
       line_items: [
         {
           price_data: {
