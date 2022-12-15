@@ -100,7 +100,7 @@ export class PaymentService {
     );
 
     if (!results || !results[0]) {
-      throw new NotFoundException('Cannot find payment transaction for given user');
+      return [];
     }
 
     return results;
