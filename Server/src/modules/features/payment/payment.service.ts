@@ -94,7 +94,7 @@ export class PaymentService {
   async getPaymentsHistoryByUserId(userId: number) {
     // @ts-ignore
     const [results] = await this.models.Product.sequelize?.query(
-      `SELECT id, amount, status, currency, payment_type from trpo.payments where user_id = :userId;
+      `SELECT id, amount, status, currency, payment_type, created_at from trpo.payments where user_id = :userId;
       `,
       { replacements: { userId } },
     );
