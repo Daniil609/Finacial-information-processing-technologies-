@@ -78,7 +78,7 @@ async function main() {
 
   const seq = new Sequelize('postgres', 'postgres', 'postgres', {
     dialect: 'postgres',
-    host: 'localhost',
+    host: 'database-1.cjqkxpdyr9kc.us-east-2.rds.amazonaws.com',
     port: 5432,
   });
 

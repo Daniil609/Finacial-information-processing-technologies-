@@ -47,6 +47,22 @@ export class AuthService {
     return { email: relatedUser.email, username: relatedUser.username, userId: +relatedUser.id };
   }
 
+  async validateUserByEmail(email: string, password: string) {
+    const relatedUser = await this.models.User.findOne({ where: { email } });
+
+    if (!relatedUser) {
+      return null;
+    }
+
+    const areCredsValid = await compare(password, relatedUser.password);
+
+    if (!areCredsValid) {
+      return null;
+    }
+
+    return { email: relatedUser.email, username: relatedUser.username, userId: +relatedUser.id };
+  }
+
   async login(user: any) {
     const payload = { username: user.username, sub: user.userId };
     return {
