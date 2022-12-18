@@ -11,7 +11,7 @@ import countryList from 'react-select-country-list'
 import { useMemo } from "react";
 import { scryRenderedComponentsWithType } from "react-dom/test-utils";
 import { height } from "@mui/system";
-
+import { BACKEND_API_URL } from "../config/config"
 import { useNavigate } from "react-router-dom";
 
 function SendPage(props) {
@@ -33,7 +33,7 @@ function SendPage(props) {
     useEffect(() => {
 
         const getTypes = async () => {
-            const response = await fetch('/api/v1/product-type', {
+            const response = await fetch(`${BACKEND_API_URL}/v1/product-type`, {
                 headers: {
                     "Authorization": `Bearer ${localStorage.getItem('TOKEN')}`,
                     'Content-Type': 'application/json',
@@ -41,7 +41,7 @@ function SendPage(props) {
             }).then((response) => response.json())
 
 
-
+            console.log(response)
             let types = []
             
             for (let type of response) {
@@ -101,7 +101,6 @@ function SendPage(props) {
         if (!localStorage.getItem('TOKEN')) {
             navigate('/signup')
         }
-
         console.log(location.state)
     })
 
@@ -117,6 +116,9 @@ function SendPage(props) {
         setQuality(object.value)
     }
     
+    const takeAgeGroup = e => {
+
+    }
 
     const sendAd = async (e) => {
         e.preventDefault()
@@ -129,16 +131,41 @@ function SendPage(props) {
         var myHeaders = new Headers();
         myHeaders.append("Authorization", `Bearer ${localStorage.getItem('TOKEN')}`);
         
-        
+        console.log(e.target.age_group?.value)
+
+        let minAge, maxAge
+    
+        switch (e.target.age_group?.value) {
+            case "Дети (0-6 лет)":
+                minAge = 0
+                maxAge = 6
+                break;
+            case "Дети (6-12 лет)":
+                minAge = 7
+                maxAge = 12
+                break;
+            case "Подростки (13 - 18 лет)":
+                minAge = 13
+                maxAge = 17
+                break;
+            case "Взрослые (18+)":
+                minAge = 19
+                maxAge = 100
+                break;
+            default:
+                return;
+        }
+
+        console.log(minAge, maxAge)
         var formdata = new FormData();
         formdata.append("name", e.target.name?.value);
         formdata.append("condition", e.target.quality?.value);
         formdata.append("image", file, file?.name);
         formdata.append("manufactureDate", now.toISOString());
-        formdata.append("price", e.target.price?.value);
+        formdata.append("price", Number(e.target.price?.value * 100));
         formdata.append("type_id", e.target.type?.value);
-        formdata.append("minAge", "3");
-        formdata.append("maxAge", "10");
+        formdata.append("minAge", minAge);
+        formdata.append("maxAge", maxAge);
         formdata.append("address", e.target.regions?.value + ", " + e.target.address?.value);
         formdata.append("userId", localStorage.getItem("ID"));
         formdata.append("description", e.target.description?.value)
@@ -150,7 +177,7 @@ function SendPage(props) {
             redirect: 'follow'
         };
 
-        const response = await fetch("/api/v1/product", requestOptions)
+        const response = await fetch(`${BACKEND_API_URL}/v1/product`, requestOptions)
         .then(response => response.json())
         .catch(error => alert(error));
         
@@ -175,11 +202,11 @@ function SendPage(props) {
             <form className="send_ad_container_info" onSubmit={sendAd}>
                 <div className="send_ad_container_row">  
                         <h1>Название: </h1>
-                        <input className="send_input_text_name" name="name" type='text' placeholder="Название"/>
+                        <input style={{margin: "0px 0 0 52px"}} className="send_input_text_name" name="name" type='text' placeholder="Название"/>
                 </div>
                 <div className="send_ad_container_row">  
                         <h1>Цена: </h1>
-                        <input className="send_input_text_price" placeholder="Цена в бел. руб." name="price" type='text'/>
+                        <input style={{margin: "0px 0 0 112px"}} className="send_input_text_price" placeholder="Цена в USD" name="price" type='text'/>
                 </div>
                 <div className="send_ad_container_row" style={{overflowX: "hidden"}}>  
                         <h1>Изображение:</h1>
@@ -187,7 +214,7 @@ function SendPage(props) {
                 </div>
                 <div className="send_ad_container_row">  
                         <h1>Область: </h1>
-                        <select name="regions" id="pet-select" style={{color: "grey", fontSize: "x-large", height: "80%", margin: "5px 0 0 40px"}}>
+                        <select name="regions" id="pet-select" style={{color: "grey", fontSize: "x-large", height: "80%", margin: "5px 0 0 70px"}}>
                             <option value="">Выберите область</option>
                             <option value="Минск">Минск</option>
                             <option value="Минская">Минская</option>
@@ -200,7 +227,16 @@ function SendPage(props) {
                 </div>
                 <div className="send_ad_container_row">  
                         <h1>Адрес: </h1>
-                        <input className="send_input_text" name="address" type='text' placeholder="Пример: 'Солигорск, ул.Понамарева, д.3'"/>
+                        <input style={{margin: "0px 0 0 97px"}} className="send_input_text" name="address" type='text' placeholder="Пример: 'Солигорск, ул.Понамарева, д.3'"/>
+                </div>
+                <div className="send_ad_container_row">  
+                        <h1>Подходящий возраст: </h1>
+                        <select className="age_group_select" onChange={takeAgeGroup} name="age_group"  style={{color: "grey",  fontSize: "x-large", width: "27.6rem", height: "70%", margin: "5px 0 0 0px"}}>
+                            <option value="Дети (0-6 лет)">Дети (0-6 лет)</option>
+                            <option value="Дети (6-12 лет)">Дети (6-12 лет)</option>
+                            <option value="Подростки (13 - 18 лет)">Подростки (13 - 18 лет)</option>
+                            <option value="Взрослые (18+)">Взрослые (18+)</option>
+                        </select>
                 </div>
                 <div className="send_ad_container_row">  
                         <h1>Тип: </h1>
@@ -212,7 +248,7 @@ function SendPage(props) {
                 </div>
                 <div className="send_ad_container_row">  
                         <h1>Описание: </h1>
-                        <textarea className="send_input_text" name="description" type='text' style={{margin: '20px 0px 20px 20px', height: "40vh", minWidth: '550px'}}/>
+                        <textarea maxLength={250} className="send_input_text" name="description" type='text' style={{margin: '20px 0px 20px 20px', height: "40vh", minWidth: '550px'}}/>
                 </div>
                 <button className="btn btn-warning btn-ad" type="submit">
                             Отправить

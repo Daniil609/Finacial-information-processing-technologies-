@@ -4,68 +4,61 @@ import NavigationBar from "../components/NavigationBar";
 import '../styles/add.css'
 import logo from '../img/logo.png'
 import { useLocation } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import '../styles/payment.css'
 import Payment from "../components/Payment";
 import { useNavigate } from "react-router-dom";
+import { BACKEND_API_URL } from "../config/config";
+
+
+
 
 const payments = [
-    {
-        type: 'Visa',
-        name: 'Платеж1',
-        sum: 100,
-        card: '9343',
-        date: '28.06.2002'
-    },
-    {
-        type: 'MasterCard',
-        name: 'Платеж1',
-        sum: 100,
-        card: '9343',
-        date: '28.06.2002'
-    },
-    {
-      type: 'MasterCard',
-      name: 'Платеж1',
-      sum: 100,
-      card: '9343',
-      date: '28.06.2002'
-  },
-  {
-    type: 'MasterCard',
-    name: 'Платеж1',
-    sum: 100,
-    card: '9343',
-    date: '28.06.2002'
-  },
-  {
-    type: 'MasterCard',
-    name: 'Платеж1',
-    sum: 100,
-    card: '9343',
-    date: '28.06.2002'
-  }
+   
 ]
 
 function PaymentPage(props) {
 
   let location = useLocation() 
   let navigate = useNavigate()
+  let [transactionData, setTransactionData] = useState() 
 
+
+    async function getPaymentData() {
+        const response = await fetch(`${BACKEND_API_URL}/v1/payment/history`, {
+          headers: {
+              "Authorization": `Bearer ${localStorage.getItem('TOKEN')}`,
+          },  
+          })
+          .then(response => response.json())
+          .catch(err => console.log(err))
+
+          setTransactionData(response)
+    }
+
+
+   
 
     useEffect ( () => {
+
+
+
       if (!localStorage.getItem('TOKEN')) {
         navigate('/signup')
       }
-    })
+      getPaymentData()
+     
+    }, [])
 
   return (
     <>
        <NavigationBar/>
        <div className="payment_container">
-            <h1>Мои платежи</h1>
+            <div id="transaction_div">
+              <h1>История транзакций</h1>
+            </div>
             {
-                payments.map((payment) => {
+                transactionData?.map((payment) => {
                     return <Payment payment={payment}></Payment>
                 })
             }

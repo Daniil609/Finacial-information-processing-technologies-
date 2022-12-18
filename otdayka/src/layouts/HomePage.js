@@ -15,6 +15,8 @@ import AdBox from "../components/AdBox";
 import age_count from "../utils/utils";
 import { selectUnstyledClasses } from "@mui/base";
 import rangeCrossing from "../utils/checkAge";
+import { BACKEND_API_URL, BACKEND_URL } from "../config/config"
+import AccountAddBox from "../components/AccountAdBox";
 
 const options = [
     { value: 'По цене', label: 'По цене' },
@@ -53,7 +55,7 @@ function LoginPage() {
 
 
   const getTypes = async () => {
-        const response = await fetch('/api/v1/product-type', {
+        const response = await fetch(`${BACKEND_API_URL}/v1/product-type`, {
             headers: {
                 "Authorization": `Bearer ${localStorage.getItem('TOKEN')}`,
                 'Content-Type': 'application/json',
@@ -76,7 +78,7 @@ function LoginPage() {
 
   const getData = async () => {
             
-    const response = await fetch('/api/v1/product',  {
+    const response = await fetch(`${BACKEND_API_URL}/v1/product`,  {
         headers: {
             "Authorization": `Bearer ${localStorage.getItem('TOKEN')}`,
             'Content-Type': 'application/json',
@@ -89,7 +91,11 @@ function LoginPage() {
     let adInfo = []
     for (let ad of response) {
 
-        const address = await fetch(`/api/v1/product/address/${ad.productInfo.address_id}`,  {
+        if (ad.productInfo.buyer_user_id) {
+            continue
+        } 
+
+        const address = await fetch(`${BACKEND_API_URL}/v1/product/address/${ad.productInfo.address_id}`,  {
             headers: {
                 "Authorization": `Bearer ${localStorage.getItem('TOKEN')}`,
             },  
@@ -125,18 +131,24 @@ function LoginPage() {
 
         console.log(typeProduct)
 
+
+        let own = (ad.productInfo.user_id == localStorage.getItem("ID"))? true: false
+
+        console.log(BACKEND_URL)
         adInfo.push({
             name: ad.productInfo.name,
                 description: ad.productInfo.description,
-                price: ad.productInfo.price,
+                price: ad.productInfo.price / 100,
                 date: ad.productInfo.manufactureDate.split("T")[0], 
                 id: ad.productInfo.id,
                 region: region,
+                address: address.name,
                 type: typeProduct.label,
                 ageGroup: ageGroup,
                 state: ad.productInfo.condition,
                 user_id: ad.productInfo.user_id,
-                image: `http://localhost:5000/${ad.productInfo.image}`
+                image: `${BACKEND_URL}/${ad.productInfo.image}`,
+                own: own
         })
     }
 
@@ -148,6 +160,10 @@ function LoginPage() {
 
 
   useEffect( () => {
+        if (!localStorage.getItem("TOKEN")) {
+            navigate("/signup", {replace: true})
+        }
+
         getTypes()
   }, [])
 
@@ -311,7 +327,7 @@ function LoginPage() {
                     <div className="dropdown-menu" aria-labelledby="dropdownMenuButton"> 
                         <a className="dropdown-item" href="#" onClick={(e) => {takeAgeGroup(e)}}>Все возраста</a>
                         <a className="dropdown-item" href="#" onClick={(e) => {takeAgeGroup(e)}}>Дети (0-6 лет)</a>
-                        <a className="dropdown-item" href="#" onClick={(e) => {takeAgeGroup(e)}}></a>
+                        <a className="dropdown-item" href="#" onClick={(e) => {takeAgeGroup(e)}}>Дети (6-12 лет)</a>
                         <a className="dropdown-item" href="#" onClick={(e) => {takeAgeGroup(e)}}>Подростки (13 - 18 лет)</a>
                         <a className="dropdown-item" href="#" onClick={(e) => {takeAgeGroup(e)}}>Взрослые (18+)</a>
                     </div>
@@ -341,7 +357,7 @@ function LoginPage() {
                                     (el.price > priceFrom || priceFrom === '')    
                                 ) 
                             }).map(object => {
-                                return (<AdBox logo={logo} id={object.id} info={object} onClick={selectAd}></AdBox>)
+                                return (<AccountAddBox logo={logo} id={object.id} info={object} onClick={selectAd}></AccountAddBox>)
                             }) 
                         ): 
                         (
@@ -349,13 +365,13 @@ function LoginPage() {
                             json.sort(function (a, b) {
                                 return a.price - b.price
                             }).map(object => {
-                                return (<AdBox logo={logo} id={object.id} info={object} onClick={selectAd}></AdBox>)
+                                return (<AccountAddBox logo={logo} id={object.id} info={object} onClick={selectAd}></AccountAddBox>)
                             })
                             : 
                             json.sort(function (a, b) {
                                 return new Date(a.date) - new Date(b.date)
                             }).map(object => {
-                                return (<AdBox logo={logo} id={object.id} info={object} onClick={selectAd}></AdBox>)
+                                return (<AccountAddBox logo={logo} id={object.id} info={object} onClick={selectAd}></AccountAddBox>)
                             })
                         )
                    }                 

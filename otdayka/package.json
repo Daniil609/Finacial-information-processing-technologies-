@@ -2,6 +2,10 @@
   "name": "otdayka",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": "16.17.0",
+    "npm": "8.15.0"
+  },
   "dependencies": {
     "@emotion/react": "^11.10.5",
     "@emotion/styled": "^11.10.5",
@@ -16,6 +20,7 @@
     "react-scripts": "^5.0.1",
     "react-select": "^5.6.1",
     "react-select-country-list": "^2.2.3",
+    "talkjs": "^0.15.5",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
@@ -41,5 +46,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "react-error-overlay": "^6.0.9"
   }
 }

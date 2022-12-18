@@ -11,9 +11,13 @@ import AdPage from "./layouts/AdPage";
 import AccountPage from './layouts/AccountPage'
 import PaymentPage from "./layouts/PaymentPage";
 import SendPage from "./layouts/SendPage";
+import ChatRoom from "./layouts/ChatRoom";
+import { useEffect } from "react";
 
 
 function App() {
+
+ 
   return (
     <Routes>
       <Route path="/" element={<HomePage />} />
@@ -23,6 +27,7 @@ function App() {
       <Route path="/account" element={<AccountPage />} />
       <Route path="/payment" element={<PaymentPage />} />
       <Route path="/send" element={<SendPage />} />
+      <Route path="/chat" element={<ChatRoom />} />
     </Routes>
   );
 }

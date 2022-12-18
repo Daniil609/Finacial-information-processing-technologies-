@@ -11,6 +11,7 @@ body {
   font-family: 'Marcellus', serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
 }
 
 .container {
@@ -22,4 +23,21 @@ body {
 
 article h1 {
   margin: 1rem 0;
+}
+
+
+/* Works on Chrome, Edge, and Safari */
+*::-webkit-scrollbar {
+  width: 12px;
+}
+
+*::-webkit-scrollbar-track {
+  background: rgb(0, 124, 21);
+  border-radius: 10px;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: rgb(51, 255, 0);
+  border-radius: 20px;
+  border: 3px solid rgb(51, 255, 0);
 }

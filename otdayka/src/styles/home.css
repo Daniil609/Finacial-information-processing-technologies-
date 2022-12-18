@@ -1,5 +1,6 @@
 .cont {
     display:flex;
+    gap: 30px;
     flex-direction: row;
     align-items: flex-start;
     justify-content: space-between;
@@ -25,18 +26,20 @@
     flex-direction: column;
     padding: 20px 20px 20px 20px;
     background-color: rgb(209, 197, 197);
-    min-width: 30%;
     min-height: 45.5rem;
+    width: 40rem;
     margin: 1.5rem 0rem 0 1.0rem;
-    border: 0.2rem solid black;
+    border: 0.1rem solid black;
+    box-shadow: 15px 10px 10px rgb(133, 123, 123);
 }
 
 .ad_container {
+    border: 0.1rem solid black;
+    box-shadow: 15px 10px 10px rgb(133, 123, 123);
     background-color: rgb(209, 197, 197);
     width: 65%;
     min-height: 45.5rem;
     margin: 1.5rem 1.0rem 0 0;
-    border: 0.2rem solid black;
 }
 
 .price_box {
@@ -64,15 +67,19 @@
 }
 
 .ad_wrapper {
-    overflow-y: scroll;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow-y: auto;
     margin: 10vh 1rem 0 1rem;
     max-height: 57vh;
     display: grid;
     row-gap: 3rem;
-    
+    margin-bottom: 1rem;
 }
 
 .ad_wrapper img {
+    border-radius: 20px;
     border: 1px solid black;
     margin: 1rem 1rem 0 1rem;
     width: 12.5rem;
@@ -83,14 +90,16 @@
 .ad_box {
     min-height: 25vh;
     background-color: white;
+    border-radius: 15px;
+    margin: 1rem 0 0 1rem;
     display: flex;
     flex-direction: row;
-    border: 1px solid black;
-    max-width: 70rem;
+    border: 0.1rem solid black;
+    max-width: 65rem;
     overflow-wrap: break-word;
     word-wrap: break-word;
     overflow: hidden;
-    background: rgb(99, 235, 235);
+    background: rgb(74, 221, 38);
 }
 
 .ad_box p {
@@ -108,22 +117,24 @@
 
 .ad_main_info_box h1 {
     justify-self: center;
-    font-size: 50px;
+    font-size: 30px;
+    padding-top: 5px;
 }
 
 .ad_extra_info_box {
     display: flex;
+    align-items: flex-end;
     justify-content: space-between;
     min-width: 45rem;
-    align-items: flex-end;
     position: relative;
+    padding: 0 rem 0 5rem;
 }
 
 
 
 
 .ad_extra_info_box span {
-    font-size: xx-large;
+    font-size: 20px;
 }
 
 

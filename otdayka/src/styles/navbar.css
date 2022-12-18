@@ -30,15 +30,16 @@
 }
 .navigation-menu li {
   list-style-type: none;
-  margin: 0 1rem;
+  margin: 0 2rem;
 }
 .navigation-menu li a {
   color: black;
   text-decoration: none;
   display: block;
-  font-size: 25px;
+  padding: 0.75rem 1.5rem 1rem 0.5rem;
+  font-size: 20px;
 }
 
 .navigation-menu li a:hover {
-    color: rgb(160, 0, 160);
+    color: rgb(140, 165, 83);
 }

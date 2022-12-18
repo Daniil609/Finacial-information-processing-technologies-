@@ -1,22 +1,27 @@
 .payment_container {
     min-width: 100%;
     background-color: rgb(172, 181, 189); 
-    overflow-y: hidden;
+    overflow-x: hidden;
+    min-height: 100vh;
 }
 
-.payment_container h1 {
-    padding: 1rem 0 0 1rem;
-}
 
+#transaction_div {
+    margin-top: 1rem;
+    left: 45%;
+    position: relative;
+}
 
 .payment_transaction {
     display: flex;
     gap: 30rem;
+    border: 0.1rem solid black;
+    box-shadow: 12px 10px 10px rgb(133, 123, 123);
     width: 95%;
-    height: 20vh;
+    height: 23vh;
     padding-left: -30rem;
     margin: 2rem 0rem 0rem 3rem;
-    background-color: rgb(97, 100, 99);
+    background-color: rgb(255, 255, 255);
 }
 
 .payment_transaction  img {

@@ -2,6 +2,8 @@ import { useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import avatar from '../img/avatar.webp'
 import { useState } from "react"
+import { BACKEND_API_URL } from "../config/config"
+
 
 export default function CommentCard(props) {
 
@@ -9,7 +11,7 @@ export default function CommentCard(props) {
     const [author, setAuthor] = useState()
 
     const getAuthor = async () => {
-        const author = await fetch(`/api/v1/profile/${props.user_id}`, {
+        const author = await fetch(`${BACKEND_API_URL}/v1/profile/${props.user_id}`, {
             headers: {
                 "Authorization": `Bearer ${localStorage.getItem('TOKEN')}`,
             },  
@@ -27,7 +29,7 @@ export default function CommentCard(props) {
     }, [])
 
     return (
-        <div class="card mb-4">
+        <div class="card" style={{marginRight: "1rem"}}>
           <div class="card-body">
             <p className="h4">{props.info?.text}</p>
 

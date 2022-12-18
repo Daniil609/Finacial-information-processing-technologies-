@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import logo from '../img/logo_white.png'
 import '../styles/login_register.css'
-
+import { BACKEND_API_URL } from "../config/config"
 
 export default function RegisterBar() {
   
@@ -34,7 +34,7 @@ export default function RegisterBar() {
 
 
 
-        const response = await fetch('/api/v1/auth/register', {
+        const response = await fetch(`${BACKEND_API_URL}/v1/auth/register`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -93,14 +93,14 @@ export default function RegisterBar() {
         <form className="main_login_bar" onSubmit={onSubmit}>
             <h1>Регистрация</h1>
             <br></br>
-            <span>Имя</span>
-            <input type="text" name="name" placeholder="Имя"></input>
+            <span>ФИО</span>
+            <input maxLength={50} type="text" name="name" placeholder="ФИО" required></input>
             <br></br>
             <span>Мобильный телефон</span>
-            <input type="text" name="phone" placeholder="Мобильный телефон"></input>
+            <input maxLength={15} type="text" name="phone" placeholder="Мобильный телефон" required></input>
             <br></br>
             <label for="pet-select" style={{fontSize: "30px"}}>Область</label>
-            <select name="regions" id="pet-select" style={{color: "grey"}}>
+            <select name="regions" id="pet-select" style={{color: "grey"}} required>
                 <option value="">Выберите область</option>
                 <option value="Минск">Минск</option>
                 <option value="Минская">Минская</option>
@@ -111,19 +111,19 @@ export default function RegisterBar() {
                 <option value="Витебская">Витебская</option>
             </select>
             <span>Адрес</span>
-            <input type="text" name="adress" placeholder="Пример: 'Солигорск, ул.Понамарева, д.3'"></input>
+            <input maxLength={50} type="text" name="adress" required placeholder="Пример: 'Солигорск, ул.Понамарева, д.3'"></input>
             <br></br>
             <span>Имя пользователя</span>
-            <input type="text" name="username" placeholder="Ник"></input>
+            <input maxLength={20} type="text" name="username" placeholder="Ник" required></input>
             <br></br>
             <span>Электронная почта</span>
-            <input type="text" name="email" placeholder="Email"></input>
+            <input maxLength={35} type="text" name="email" placeholder="Email" required></input>
             <br></br>
             <span>Пароль</span>
-            <input type="password" name="password" placeholder="Пароль"></input>
+            <input required type="password" name="password" placeholder="Пароль"></input>
             <br></br>
             <span>Повторите пароль</span>
-            <input type="password" name="repeat_password" placeholder="Повторите пароль"></input>
+            <input type="password" required name="repeat_password" placeholder="Повторите пароль"></input>
             <input type="submit" className="register_button" value="Register"></input>
             <div id="reg_result">
             </div>

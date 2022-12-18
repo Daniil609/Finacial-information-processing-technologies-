@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 import avatar from '../img/avatar.webp'
 import '../styles/commentary.css'
 import CommentCard from "../components/CommentCard";
-
+import { BACKEND_API_URL } from "../config/config"
 
 function AdPage(props) {
 
@@ -20,6 +20,7 @@ function AdPage(props) {
 
   let [comments, setComments] = useState()
   let [profileData, setProfileData] = useState()
+  let [myProfileData, setMyProfileData] = useState()
 
     useEffect ( () => {
 
@@ -29,11 +30,34 @@ function AdPage(props) {
         console.log(location.state)
     })
 
-    
+    function startChat() {
+        console.log('chat...')
 
+        navigate('/chat',{
+            state: {
+                myUser: myProfileData,
+                myParticipent: profileData
+            }
+        } )
+    }
+    
+    async function getMyProfileData () {
+        const profileInfo =  await fetch(`${BACKEND_API_URL}/v1/profile/${localStorage.getItem("ID")}`,  {
+            headers: {
+                "Authorization": `Bearer ${localStorage.getItem('TOKEN')}`,
+                'Content-Type': 'application/json',
+            },  
+        })
+        .then(response => response.json())
+        .catch(err => console.log(err)) 
+
+
+        
+        setMyProfileData(profileInfo)
+    }
 
     async function getProfileData () {
-        const profileInfo =  await fetch(`/api/v1/profile/${location.state.user_id}`,  {
+        const profileInfo =  await fetch(`${BACKEND_API_URL}/v1/profile/${location.state.user_id}`,  {
             headers: {
                 "Authorization": `Bearer ${localStorage.getItem('TOKEN')}`,
                 'Content-Type': 'application/json',
@@ -48,13 +72,19 @@ function AdPage(props) {
     }
 
     useEffect(() => {
+
+        if (!localStorage.getItem("TOKEN")) {
+            navigate("/signup", {replace: true})
+        }
+        getMyProfileData()
         getProfileData()
         getComments()
+        console.log(location.state.own)
     }, [])
 
 
     const getComments = async () => {
-        const comments = await fetch(`/api/v1/comments/${location.state.id}`, {
+        const comments = await fetch(`${BACKEND_API_URL}/v1/comments/${location.state.id}`, {
             headers: {
                 "Authorization": `Bearer ${localStorage.getItem('TOKEN')}`,
             },  
@@ -64,6 +94,7 @@ function AdPage(props) {
 
 
         console.log(comments)
+        setComments()
         setComments(comments.reverse())
     }
 
@@ -80,7 +111,7 @@ function AdPage(props) {
             "userId": Number(localStorage.getItem("ID"))
         }
 
-        const response = await fetch(`/api/v1/comments`,  {
+        const response = await fetch(`${BACKEND_API_URL}/v1/comments`,  {
             method: 'POST',
             headers: {
                 "Authorization": `Bearer ${localStorage.getItem('TOKEN')}`,
@@ -94,6 +125,33 @@ function AdPage(props) {
 
         console.log(response)
         getComments()
+        window.location.reload()
+    }
+
+
+    
+
+    const makePayment = async (e) => {
+    
+        const body = {
+            "productId": location.state.id,
+            "userId": Number(localStorage.getItem("ID"))
+        }
+
+        const response = await fetch(`${BACKEND_API_URL}/v1/payment/create-checkout-session`, {
+            method: 'POST',
+            headers: {
+                "Authorization": `Bearer ${localStorage.getItem('TOKEN')}`,
+                'Content-Type': 'application/json',
+            }, 
+            body: JSON.stringify(body)
+        })
+        .then(response => response.json())
+        .catch(err => console.log(err)) 
+
+        console.log(response)
+        window.location.replace(response.redirect_url)
+    
     }
 
   return (
@@ -115,9 +173,9 @@ function AdPage(props) {
                         <p>Состояние</p>
                         <p><strong>{location.state.state}</strong></p>
                         <p>Цена</p>
-                        <p><strong>{location.state.price} BYN</strong></p>
+                        <p><strong>{location.state.price} $</strong></p>
                     </div>
-                    <div className="char_container">
+                    <div className="author_container">
                         <p style={{fontSize: "x-large"}}><strong>Сведения об авторе:</strong></p>
                         <br></br>
                         <p>Имя</p>
@@ -140,13 +198,25 @@ function AdPage(props) {
 
                 <div> 
                         <br></br>
-                        <button className="btn btn-warning" type="button">
-                                Написать автору
-                        </button>
-                        <br></br>
-                        <button className="btn btn-primary" type="button">
-                                Оплатить онлайн
-                        </button>
+                        {
+                            (location.state.own == false)?(
+                                <>
+                                    <button className="btn btn-warning" type="button" onClick={startChat}>
+                                        Написать автору
+                                    </button>
+                                    <br></br>
+                                    <button className="btn btn-primary" type="button" onClick={makePayment}>
+                                        Оплатить онлайн
+                                    </button>
+                                </>
+                                ):
+                                (
+                                    <>
+                                        <p style={{color: "green", fontSize: "40px"}}>Вы владелец данного объявления</p>
+                                    </>
+                                )
+                        }
+                        
                 </div> 
                 
             </div>

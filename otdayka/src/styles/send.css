@@ -1,24 +1,46 @@
 .send_ad_container_row {
     display: flex;
     flex-direction: row;
-    border: 2px solid black;
+    border: 0.1rem solid black;
     margin-left: 5rem;
+    background-color: rgb(231, 235, 235);
     gap: 2rem;
     max-width: 70rem;
+    border-radius: 1rem;
+    padding-left: 1rem;
+    box-shadow: 12px 10px 10px rgb(133, 123, 123);
 }
 
+.send_ad_container_row input[type="text"] {
+    padding-left: 0.3rem;
+    border-radius: 5px;
+    border: 1px solid gray;
+}
 
+.send_ad_container_row h1 {
+    font-size: xx-large;
+}
+
+.send_ad_container_row select {
+    padding-left: 0.2rem;
+    border-radius: 5px;
+    border: 0.1rem solid grey;
+}
 
 .send_ad_container img {
     width: 40rem;
     height: 25rem;
     border: 1px solid black;
+    border-radius: 2rem;
+    box-shadow: 12px 10px 10px rgb(133, 123, 123);
 }
+
+
 
 .send_ad_container {
     padding-top: 5rem;
     display: flex;
-    background-color: rgb(168, 175, 175);
+    background-color: rgb(212, 212, 212);
     min-height: 125vh;
     overflow-x: hidden;
 }
@@ -34,6 +56,13 @@
     display: flex;
     flex-direction: column;
     gap: 2rem;
+    border: 0.1rem solid black;
+    padding: 4rem 4rem 2rem 0rem;
+    background-color: rgba(87, 211, 87, 0.753);
+    border-radius: 30px;
+    margin-left: 5rem;
+    margin-bottom: 2rem;
+    box-shadow: 12px 10px 10px rgb(133, 123, 123);
 }
 
 .send_ad_image_container {
@@ -86,16 +115,16 @@ input[type="file"] {
 }
 
 .type_select {
-    width: 560px;
+    width: 550px;
     align-self: center;
-    margin-left: 115px;
+    margin-left: 125px;
 }
 
 
 .quality_select {
     align-self: center;
-    margin-left: 0px;
-    min-width: 560px;
+    margin-left: 35px;
+    min-width: 550px;
 }
 
 figure {

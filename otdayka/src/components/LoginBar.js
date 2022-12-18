@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom'
 import logo from '../img/logo_white.png'
 import '../styles/login_register.css'
-
+import { BACKEND_API_URL } from "../config/config"
 
 export default function LoginBar() {
 
@@ -15,7 +15,7 @@ export default function LoginBar() {
             "password": e.target.password.value
         }
 
-        const response = await fetch('/api/v1/auth/login', {
+        const response = await fetch(`${BACKEND_API_URL}/v1/auth/login`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
