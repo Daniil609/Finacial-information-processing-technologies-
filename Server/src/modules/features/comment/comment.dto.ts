@@ -17,3 +17,10 @@ export class CommentUploadDto {
   @ApiProperty()
   readonly userId: number;
 }
+
+export class CommentDeleteDto {
+  @IsNotEmpty()
+  @IsString()
+  @ApiProperty()
+  readonly commentId: string;
+}

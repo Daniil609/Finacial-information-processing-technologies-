@@ -1,4 +1,14 @@
-import { Body, Controller, Get, Param, Post, Req, Res, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Request,
+  Res,
+  UseGuards,
+} from '@nestjs/common';
 import { ApiBearerAuth, ApiBody, ApiParam, ApiTags } from '@nestjs/swagger';
 import { Response } from 'express';
 import { PERMISSION_CODE, PERMISSION_LEVEL } from '../../../constants';
@@ -6,7 +16,7 @@ import { decorator } from '../../../decorators';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import * as ResponseEntity from './entities';
 import { CommentService } from './comment.service';
-import { CommentUploadDto } from './comment.dto';
+import { CommentDeleteDto, CommentUploadDto } from './comment.dto';
 import { apiResponseExample } from 'src/utils/api-response-examples';
 
 @ApiTags('comments')
@@ -27,6 +37,41 @@ export class CommentController {
     //@ts-ignore
     const productComments = await this.service.findCommentsByProductId(productId);
     res.json(productComments);
+  }
+
+  @Delete('/:productId')
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
+  @decorator.ApiResponse.internal()
+  @decorator.ApiResponse.forbidden()
+  @decorator.ApiResponse.unauthorized()
+  @decorator.ApiResponse.success({ type: ResponseEntity.GetCommentsByProductId })
+  @decorator.Permissions([PERMISSION_CODE.PERMISSIONS, PERMISSION_LEVEL.READ])
+  @ApiParam({ name: 'productId', example: apiResponseExample.uuid })
+  @ApiBody({
+    schema: {},
+    examples: {
+      a: {
+        summary: 'Example request with comment data',
+        description: 'Simple body example',
+        value: {
+          commentId: apiResponseExample.uuid,
+        },
+      },
+    },
+  })
+  async deleteById(
+    @Param('productId') productId,
+    @Body() body: CommentDeleteDto,
+    @Request() req,
+    @Res() res: Response,
+  ) {
+    const userId = req.user.userId;
+    const { commentId } = body;
+
+    //@ts-ignore
+    await this.service.deleteCommentByProductId(productId, userId, commentId);
+    res.sendStatus(200);
   }
 
   @Post()

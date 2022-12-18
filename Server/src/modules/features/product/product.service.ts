@@ -161,4 +161,13 @@ export class ProductService {
 
     return results[0];
   }
+
+  async deleteProductById(productId: string, userId: number) {
+    //@ts-ignore
+    await this.models.Region.sequelize?.query(
+      `DELETE FROM trpo.products where id = :productId and user_id = :userId;
+      `,
+      { replacements: { productId, userId } },
+    );
+  }
 }

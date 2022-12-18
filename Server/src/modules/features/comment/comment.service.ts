@@ -76,4 +76,13 @@ export class CommentService {
 
     return results[0];
   }
+
+  async deleteCommentByProductId(productId: string, userId: number, commentId: string) {
+    //@ts-ignore
+    await this.models.Region.sequelize?.query(
+      `DELETE FROM trpo.comments c where c.product_id = :productId and c.user_id = :userId and c.id = :commentId;
+      `,
+      { replacements: { userId, productId, commentId } },
+    );
+  }
 }

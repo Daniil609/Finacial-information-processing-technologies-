@@ -1,9 +1,9 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   HttpStatus,
-  Logger,
   Param,
   ParseFilePipeBuilder,
   Post,
@@ -200,5 +200,22 @@ export class ProductController {
       minAge: +minAge,
     });
     res.json(userProfile);
+  }
+
+  @Delete('/:productId')
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
+  @decorator.ApiResponse.internal()
+  @decorator.ApiResponse.forbidden()
+  @decorator.ApiResponse.unauthorized()
+  @decorator.ApiResponse.success({ type: ResponseEntity.GetProductsByUserId })
+  @decorator.Permissions([PERMISSION_CODE.PERMISSIONS, PERMISSION_LEVEL.READ])
+  @ApiParam({ name: 'productId', example: apiResponseExample.uuid })
+  async deleteById(@Param('productId') productId, @Req() req, @Res() res: Response) {
+    const userId = req.user.userId;
+
+    //@ts-ignore
+    await this.service.deleteProductById(productId, userId);
+    res.sendStatus(200);
   }
 }
